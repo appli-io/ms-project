@@ -37,8 +37,11 @@ export class Project extends BaseEntity {
   @Column({name: 'date-start', type: 'date', nullable: false})
   dateStart: Date;
 
-  @Column({name: 'date-end', type: 'date', nullable: false})
-  dateEnd: Date;
+  @Column({name: 'due-date', type: 'date', nullable: false})
+  dueDate: Date;
+
+  @Column({name: 'completed-date', type: 'date', nullable: false})
+  completedDate: Date;
 
   @Column({name: 'reference-code', type: 'varchar', length: 255, nullable: true})
   referenceCode: string;
@@ -55,6 +58,6 @@ export class Project extends BaseEntity {
   @DeleteDateColumn()
   deletedAt: Date;
 
-  @OneToMany(() => Epic, (epic) => epic.project)
+  @OneToMany(() => Epic, (epic) => epic.project, {lazy: true})
   epic: Epic[];
 }
