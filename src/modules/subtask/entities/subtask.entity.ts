@@ -1,19 +1,7 @@
-import {
-  BaseEntity,
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn
-}                  from 'typeorm';
-import { Epic }    from '@modules/epic/entities/epic.entity';
-import { Subtask } from '@modules/subtask/entities/subtask.entity';
+import { BaseEntity, Column, CreateDateColumn, DeleteDateColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Task }                                                                                                        from '@modules/task/entities/task.entity';
 
-@Entity()
-export class Task extends BaseEntity {
+export class Subtask extends BaseEntity {
 
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -54,9 +42,6 @@ export class Task extends BaseEntity {
   @DeleteDateColumn()
   deleteAt: Date;
 
-  @ManyToOne(() => Epic, (epic) => epic.id)
-  epic: Epic;
-
-  @OneToMany(() => Subtask, (subtask) => subtask.task)
-  subtask: Subtask[];
+  @ManyToOne(() => Task, (task) => task.subtask)
+  task: Task;
 }
