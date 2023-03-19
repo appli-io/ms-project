@@ -60,4 +60,7 @@ export class Project extends BaseEntity {
 
   @OneToMany(() => Epic, (epic) => epic.project, {lazy: true})
   epic: Epic[];
+
+  // @ManyToMany(() => User, {lazy: true})
+  // users: User[];
 }
