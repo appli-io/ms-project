@@ -5,6 +5,7 @@ import authConfig              from '@core/environment/auth.config';
 import databaseConfig          from '@core/environment/database.config';
 import rabbitMqConfig          from '@core/environment/rabbit-mq.config';
 import { TypeOrmConfigModule } from '@core/typeorm/typeorm.module';
+import { CommentModule }       from '@modules/comment/comment.module';
 import { SubtaskModule }       from '@modules/subtask/subtask.module';
 import { AppController }       from './app.controller';
 import { AppService }          from './app.service';
@@ -21,7 +22,8 @@ import { AppService }          from './app.service';
       ]
     }),
     TypeOrmConfigModule,
-    SubtaskModule
+    SubtaskModule,
+    CommentModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,5 +1,15 @@
-import { BaseEntity, Column, CreateDateColumn, DeleteDateColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
-import { Task }                                                                                                        from '@modules/task/entities/task.entity';
+import {
+  BaseEntity,
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
+}                         from 'typeorm';
+import { Task }           from '@modules/task/entities/task.entity';
+import { SubtaskComment } from '@modules/subtask/entities/subtask-comment.entity';
 
 export class Subtask extends BaseEntity {
 
@@ -44,4 +54,7 @@ export class Subtask extends BaseEntity {
 
   @ManyToOne(() => Task, (task) => task.subtask)
   task: Task;
+
+  @OneToMany(() => SubtaskComment, (subtaskComment) => subtaskComment.subtask)
+  comments: SubtaskComment[];
 }

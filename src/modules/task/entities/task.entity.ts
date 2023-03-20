@@ -8,9 +8,10 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn
-}                  from 'typeorm';
-import { Epic }    from '@modules/epic/entities/epic.entity';
-import { Subtask } from '@modules/subtask/entities/subtask.entity';
+}                      from 'typeorm';
+import { Epic }        from '@modules/epic/entities/epic.entity';
+import { Subtask }     from '@modules/subtask/entities/subtask.entity';
+import { TaskComment } from '@modules/task/entities/task-comment.entity';
 
 @Entity()
 export class Task extends BaseEntity {
@@ -59,4 +60,7 @@ export class Task extends BaseEntity {
 
   @OneToMany(() => Subtask, (subtask) => subtask.task)
   subtask: Subtask[];
+
+  @OneToMany(() => TaskComment, (taskComment) => taskComment.task)
+  comments: TaskComment[];
 }
