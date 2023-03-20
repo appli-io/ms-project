@@ -13,6 +13,7 @@ import { Epic }           from '@modules/epic/entities/epic.entity';
 import { ProjectComment } from '@modules/project/entities/project-comment.entity';
 
 @Entity({name: 'project'})
+@Index(['reference-code', 'client-id'], {unique: true})
 export class Project extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -35,20 +36,23 @@ export class Project extends BaseEntity {
   status: string;
   */
 
-  @Column({name: 'date-start', type: 'date', nullable: false})
+  @Column({name: 'date-start', type: 'date', nullable: false, default: () => 'CURRENT_TIMESTAMP'})
   dateStart: Date;
 
   @Column({name: 'due-date', type: 'date', nullable: false})
   dueDate: Date;
 
-  @Column({name: 'completed-date', type: 'date', nullable: false})
+  @Column({name: 'completed-date', type: 'date', nullable: true})
   completedDate: Date;
 
-  @Column({name: 'reference-code', type: 'varchar', length: 255, nullable: true})
-  referenceCode: string;
+  @Column({name: 'prefix', type: 'varchar', length: 255, nullable: true})
+  prefix: string;
 
   @Column({name: 'reference-url', type: 'varchar', length: 255, nullable: true})
   referenceUrl: string;
+
+  @Column({name: 'client-id', type: 'uuid', nullable: false})
+  clientId: string;
 
   @CreateDateColumn()
   createdAt: Date;
