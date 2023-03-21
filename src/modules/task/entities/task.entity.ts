@@ -13,7 +13,7 @@ import { Epic }        from '@modules/epic/entities/epic.entity';
 import { Subtask }     from '@modules/subtask/entities/subtask.entity';
 import { TaskComment } from '@modules/task/entities/task-comment.entity';
 
-@Entity()
+@Entity({name: 'task'})
 export class Task extends BaseEntity {
 
   @PrimaryGeneratedColumn('uuid')

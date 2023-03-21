@@ -14,5 +14,6 @@ import { TypeOrmConfigService } from './typeorm-config.service';
     }),
   ],
   providers: [TypeOrmConfigService],
+  exports: [TypeOrmModule, TypeOrmConfigService],
 })
 export class TypeOrmConfigModule {}

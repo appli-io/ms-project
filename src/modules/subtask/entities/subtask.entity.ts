@@ -3,6 +3,7 @@ import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
+  Entity,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -11,6 +12,7 @@ import {
 import { Task }           from '@modules/task/entities/task.entity';
 import { SubtaskComment } from '@modules/subtask/entities/subtask-comment.entity';
 
+@Entity({name: 'subtask'})
 export class Subtask extends BaseEntity {
 
   @PrimaryGeneratedColumn('uuid')

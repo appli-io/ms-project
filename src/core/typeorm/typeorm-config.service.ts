@@ -1,12 +1,15 @@
 import { Injectable }                                  from '@nestjs/common';
 import { ConfigService }                               from '@nestjs/config';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
+import * as path                                       from 'path';
 
 @Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
   constructor(private configService: ConfigService) {}
 
   createTypeOrmOptions(): TypeOrmModuleOptions {
+    console.log(this.configService.get('database'));
+    console.log(path.join(path.resolve(__dirname), '..', '..', '**', '*.entity{.ts,.js}'));
     return {
       type: this.configService.get('database.type'),
       // url: this.configService.get('database.url'),
@@ -15,11 +18,11 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       username: this.configService.get('database.user'),
       password: this.configService.get('database.password'),
       database: this.configService.get('database.name'),
-      synchronize: this.configService.get('database.synchronize'),
+      synchronize: this.configService.get<boolean>('database.synchronize'),
       dropSchema: false,
       keepConnectionAlive: true,
       // logging: this.configService.get('app.nodeEnv') !== 'production',
-      entities: [__dirname + './../../../**/*.entity{.ts,.js}'],
+      entities: [path.join(path.resolve(__dirname), '..', '..', '**', '*.entity{.ts,.js}')],
       migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
       cli: {
         entitiesDir: 'src',

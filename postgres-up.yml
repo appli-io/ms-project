@@ -10,7 +10,7 @@ services:
     environment:
       POSTGRES_USER: appli
       POSTGRES_PASSWORD: appli-pass
-      POSTGRES_DB: ms-project,
+      POSTGRES_DB: ms-project
     networks:
       - ms-user-network
   rabbitmq:

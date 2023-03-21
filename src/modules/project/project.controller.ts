@@ -1,9 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
-import { ProjectService }                                               from './project.service';
-import { CreateProjectDto }                                             from './dto/create-project.dto';
-import { UpdateProjectDto }                                             from './dto/update-project.dto';
-import { ApiBearerAuth }                                                from '@nestjs/swagger';
-import { AuthGuard }                                                    from '@infrastructure/common/guards/auth.guard';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { ProjectService }                                    from './project.service';
+import { CreateProjectDto }                                  from './dto/create-project.dto';
+import { UpdateProjectDto }                                  from './dto/update-project.dto';
 
 @Controller('project')
 export class ProjectController {
@@ -14,8 +12,6 @@ export class ProjectController {
     return this.projectService.create(createProjectDto);
   }
 
-  @ApiBearerAuth()
-  @UseGuards(AuthGuard)
   @Get()
   findAll() {
     return this.projectService.findAll();
@@ -23,16 +19,16 @@ export class ProjectController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.projectService.findOne(+id);
+    return this.projectService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProjectDto: UpdateProjectDto) {
-    return this.projectService.update(+id, updateProjectDto);
+    return this.projectService.update(id, updateProjectDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.projectService.remove(+id);
+    return this.projectService.remove(id);
   }
 }

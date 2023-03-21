@@ -1,7 +1,6 @@
-import { IsDate, IsNotEmpty, IsOptional, IsString, IsUrl, Matches, MaxLength, MinLength } from 'class-validator';
+import { IsDate, IsNotEmpty, IsOptional, IsString, IsUrl, IsUUID, Matches, MaxLength, MinLength } from 'class-validator';
 
 export class CreateProjectDto {
-
   @IsString()
   @IsNotEmpty()
   @MinLength(10)
@@ -14,28 +13,36 @@ export class CreateProjectDto {
   @MaxLength(255)
   description: string;
 
-  @IsOptional()
-  @IsDate()
-  dateStart: Date;
+  @IsUUID()
+  @IsNotEmpty()
+  owner: string;
+
+  @IsUUID()
+  @IsNotEmpty()
+  clientId: string;
 
   @IsOptional()
   @IsDate()
-  dueDate: Date;
+  dateStart?: Date;
 
   @IsOptional()
   @IsDate()
-  completedDate: Date;
+  dueDate?: Date;
+
+  @IsOptional()
+  @IsDate()
+  completedDate?: Date;
 
   @Matches(/^[^\s]+$/, {
     message: 'El contenido debe ser una sola palabra sin espacios.',
   })
   @IsString()
   @IsNotEmpty()
-  @MinLength(3)
+  @MinLength(2)
   @MaxLength(255)
   prefix: string;
 
   @IsOptional()
   @IsUrl()
-  referenceUrl: string;
+  referenceUrl?: string;
 }
