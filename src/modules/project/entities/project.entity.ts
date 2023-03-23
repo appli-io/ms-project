@@ -25,8 +25,8 @@ export class Project extends BaseEntity {
   @Column({name: 'description', type: 'varchar', length: 255, nullable: false})
   description: string;
 
-  @Column({name: 'is_active', type: 'boolean', default: true})
-  isActive: boolean;
+  @Column({name: 'active', type: 'boolean', default: true})
+  active: boolean;
 
   @Column({name: 'owner', type: 'uuid'})
   owner: string;
@@ -45,6 +45,7 @@ export class Project extends BaseEntity {
   @Column({name: 'completed-date', type: 'date', nullable: true})
   completedDate: Date;
 
+  @Index()
   @Column({name: 'prefix', type: 'varchar', length: 255, nullable: true})
   prefix: string;
 
@@ -54,7 +55,7 @@ export class Project extends BaseEntity {
   @Column({name: 'client-id', type: 'uuid', nullable: false})
   clientId: string;
 
-  @CreateDateColumn()
+  @CreateDateColumn({name: 'created-at', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
   createdAt: Date;
 
   @UpdateDateColumn()
