@@ -1,11 +1,10 @@
 import { Module } from '@nestjs/common';
 
 // import { AUTH_CLIENT }       from '@domain/constants/main.constant';
-import { ProjectService }    from './project.service';
-import { ProjectController } from './project.controller';
-import { TypeOrmModule }     from '@nestjs/typeorm';
-import { Project }           from '@modules/project/entities/project.entity';
-import { ProjectComment }    from '@modules/project/entities/project-comment.entity';
+import { ProjectService }          from './project.service';
+import { ProjectController }       from './project.controller';
+import { TypeOrmModule }           from '@nestjs/typeorm';
+import { Project, ProjectComment } from '@modules/project/entities';
 
 @Module({
   imports: [

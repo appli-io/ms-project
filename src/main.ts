@@ -3,8 +3,9 @@ import { Logger, ValidationPipe }         from '@nestjs/common';
 import { ConfigService }                  from '@nestjs/config';
 import { Transport }                      from '@nestjs/microservices';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ResponseInterceptor }            from '@core/interceptor/response.interceptor';
+import { GlobalExceptionFilter }          from '@core/filter/typeorm.filter';
 import { AppModule }                      from './app.module';
-import { ResponseInterceptor }            from './core/interceptor/response.interceptor';
 
 function configurateSwagger(app): void {
   const config = new DocumentBuilder()
@@ -25,6 +26,7 @@ async function bootstrap() {
   const moduleRef = app.select(AppModule);
   const reflector = moduleRef.get(Reflector);
   app.useGlobalInterceptors(new ResponseInterceptor(reflector));
+  app.useGlobalFilters(new GlobalExceptionFilter());
 
   app.enableCors({origin: '*'});
 
@@ -35,7 +37,11 @@ async function bootstrap() {
       {
         whitelist: true,                    // Ignorar datos que no esten en los DTO
         forbidNonWhitelisted: true,         // Lanzar error si existen datos prohibidos
-        disableErrorMessages: true          // Desabilitar mensajes de error (producción)
+        disableErrorMessages: true,         // Desabilitar mensajes de error (producción)
+        transform: true,                    // Transformar datos
+        transformOptions: {                 // Opciones de transformación
+          enableImplicitConversion: true    // Habilitar conversión implicita
+        }
       })
   );
 

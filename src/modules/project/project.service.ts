@@ -5,7 +5,7 @@ import { Project }                                                             f
 import { createDtoToEntityMapper }                                             from '@modules/project/mapper/createDtoToEntity.mapper';
 import { CreateProjectDto }                                                    from './dto/create-project.dto';
 import { UpdateProjectDto }                                                    from './dto/update-project.dto';
-import { handleDBExceptions }                                                  from '../../shared/handle/db-exceptions.handle';
+import { PaginationDto }                                                       from '@common/dto/pagination.dto';
 
 @Injectable()
 export class ProjectService {
@@ -24,15 +24,18 @@ export class ProjectService {
 
     const newProject = this.projectRepository.create(createDtoToEntityMapper(createProjectDto));
 
-    try {
-      return await this.projectRepository.save(newProject);
-    } catch (error) {
-      handleDBExceptions(error, this.logger);
-    }
+    return await this.projectRepository.save(newProject);
   }
 
-  findAll(): Promise<Array<Project>> {
-    return this.projectRepository.find();
+  findAll(paginationDto: PaginationDto): Promise<Array<Project>> {
+    const {limit = 10, offset = 0} = paginationDto;
+    return this.projectRepository.find({
+      take: limit,
+      skip: offset,
+      order: {
+        createdAt: 'DESC'
+      }
+    });
   }
 
   async findOne(id: string): Promise<Project> {
@@ -54,14 +57,14 @@ export class ProjectService {
   }
 
   async update(id: string, updateProjectDto: UpdateProjectDto) {
-    const project = await this.findOne(id);
+    const project = await this.projectRepository.preload({
+      id,
+      ...updateProjectDto
+    });
     if (!project)
       throw new NotFoundException('Project not found');
 
-    const updatedProject = this.projectRepository.create(updateProjectDto);
-    updatedProject.id = project.id;
-
-    return this.projectRepository.save(updatedProject);
+    return await this.projectRepository.save(project);
   }
 
   async remove(id: string): Promise<Project> {

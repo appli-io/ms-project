@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post } from '@nestjs/common';
-import { ProjectService }                                                   from './project.service';
-import { CreateProjectDto }                                                 from './dto/create-project.dto';
-import { UpdateProjectDto }                                                 from './dto/update-project.dto';
+import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Query } from '@nestjs/common';
+import { PaginationDto }                                                           from '@common/dto/pagination.dto';
+import { CreateProjectDto }                                                        from './dto/create-project.dto';
+import { UpdateProjectDto }                                                        from './dto/update-project.dto';
+import { ProjectService }                                                          from './project.service';
 
 @Controller('project')
 export class ProjectController {
@@ -13,8 +14,8 @@ export class ProjectController {
   }
 
   @Get()
-  findAll() {
-    return this.projectService.findAll();
+  findAll(@Query() paginationDto: PaginationDto) {
+    return this.projectService.findAll(paginationDto);
   }
 
   @Get(':id')

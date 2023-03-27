@@ -1,17 +1,21 @@
 import { Module }        from '@nestjs/common';
 import { ConfigModule }  from '@nestjs/config';
-import appConfig         from '@core/environment/app.config';
-import authConfig        from '@core/environment/auth.config';
-import databaseConfig    from '@core/environment/database.config';
-import rabbitMqConfig    from '@core/environment/rabbit-mq.config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { CommonModule }  from '@common/common.module';
+
+import appConfig      from '@core/environment/app.config';
+import authConfig     from '@core/environment/auth.config';
+import databaseConfig from '@core/environment/database.config';
+import rabbitMqConfig from '@core/environment/rabbit-mq.config';
+
 import { CommentModule } from '@modules/comment/comment.module';
 import { SubtaskModule } from '@modules/subtask/subtask.module';
-import { AppController } from './app.controller';
-import { AppService }    from './app.service';
 import { ProjectModule } from '@modules/project/project.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { EpicModule }    from '@modules/epic/epic.module';
 import { TaskModule }    from '@modules/task/task.module';
+
+import { AppController } from './app.controller';
+import { AppService }    from './app.service';
 
 @Module({
   imports: [
@@ -40,7 +44,8 @@ import { TaskModule }    from '@modules/task/task.module';
     SubtaskModule,
     CommentModule,
     EpicModule,
-    TaskModule
+    TaskModule,
+    CommonModule
   ],
   controllers: [AppController],
   providers: [AppService],
