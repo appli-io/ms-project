@@ -1,11 +1,13 @@
 import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
-import { Repository }                                                          from 'typeorm';
 import { InjectRepository }                                                    from '@nestjs/typeorm';
+import { Repository }                                                          from 'typeorm';
+import { PageDto }                                                             from '@common/dto/page.dto';
+import { PageOptionsDto }                                                      from '@common/dto/page-options.dto';
+import { PageMetaDto }                                                         from '@common/dto/page-meta.dto';
 import { Project }                                                             from '@modules/project/entities/project.entity';
 import { createDtoToEntityMapper }                                             from '@modules/project/mapper/createDtoToEntity.mapper';
 import { CreateProjectDto }                                                    from './dto/create-project.dto';
 import { UpdateProjectDto }                                                    from './dto/update-project.dto';
-import { PaginationDto }                                                       from '@common/dto/pagination.dto';
 
 @Injectable()
 export class ProjectService {
@@ -27,19 +29,34 @@ export class ProjectService {
     return await this.projectRepository.save(newProject);
   }
 
-  findAll(paginationDto: PaginationDto): Promise<Array<Project>> {
-    const {limit = 10, offset = 0} = paginationDto;
-    return this.projectRepository.find({
-      take: limit,
-      skip: offset,
-      order: {
-        createdAt: 'DESC'
-      }
-    });
+  async findAll(pageOptionsDto: PageOptionsDto): Promise<PageDto<Project>> {
+    const queryBuilder = this.projectRepository.createQueryBuilder('project');
+
+    queryBuilder
+      .orderBy('project.createdAt', pageOptionsDto.order)
+      .skip(pageOptionsDto.skip)
+      .take(pageOptionsDto.take);
+
+    const itemCount = await queryBuilder.getCount();
+    const {entities} = await queryBuilder.getRawAndEntities();
+
+    const pageMetaDto = new PageMetaDto({itemCount, pageOptionsDto});
+
+    return new PageDto(entities, pageMetaDto);
   }
 
   async findOne(id: string): Promise<Project> {
+    // search only one project with comments as realtions
     const project = await this.projectRepository.findOneBy({id});
+
+    if (!project)
+      throw new NotFoundException('Project not found');
+
+    return project;
+  }
+
+  async findOneWithRelations(id: string) {
+    const project = await this.projectRepository.findOne({where: {id}, relations: ['comments']});
 
     if (!project)
       throw new NotFoundException('Project not found');
@@ -86,21 +103,5 @@ export class ProjectService {
     project.active = active;
 
     return this.projectRepository.save(project);
-  }
-
-  getComments(id: string) {
-    console.log(id);
-  }
-
-  addComment(id: string, comment: string) {
-    console.log(id, comment);
-  }
-
-  addCommentReply(id: string, commentId: string, reply: string) {
-    console.log(id, commentId, reply);
-  }
-
-  removeComment(id: string, commentId: string) {
-    console.log(id, commentId);
   }
 }

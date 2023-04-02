@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsString, IsUUID, MaxLength, MinLength } from 'class-validator';
+import { IsNotEmpty, IsString, IsUUID, MaxLength, MinLength } from 'class-validator';
 
 export class CreateCommentDto {
   @IsString()
@@ -7,9 +7,9 @@ export class CreateCommentDto {
   @MaxLength(255)
   content: string;
 
-  @IsOptional()
-  @IsUUID()
-  parent?: string;
+  // @IsOptional()
+  // @IsUUID()
+  // parent?: Comment;
 
   @IsUUID()
   @IsNotEmpty()

@@ -5,10 +5,13 @@ import { ProjectService }          from './project.service';
 import { ProjectController }       from './project.controller';
 import { TypeOrmModule }           from '@nestjs/typeorm';
 import { Project, ProjectComment } from '@modules/project/entities';
+import { ProjectCommentService }   from '@modules/project/project-comment.service';
+import { CommentModule }           from '@modules/comment/comment.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Project, ProjectComment])
+    TypeOrmModule.forFeature([Project, ProjectComment]),
+    CommentModule
     // ClientsModule.registerAsync([
     //   {
     //     name: AUTH_CLIENT,
@@ -27,6 +30,6 @@ import { Project, ProjectComment } from '@modules/project/entities';
     // ])
   ],
   controllers: [ProjectController],
-  providers: [ProjectService]
+  providers: [ProjectService, ProjectCommentService]
 })
 export class ProjectModule {}

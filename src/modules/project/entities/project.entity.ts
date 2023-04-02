@@ -12,7 +12,7 @@ import {
 import { Epic }           from '@modules/epic/entities/epic.entity';
 import { ProjectComment } from '@modules/project/entities/project-comment.entity';
 
-@Entity({name: 'project'})
+@Entity({name: 'projects'})
 @Index(['prefix', 'clientId'], {unique: true})
 export class Project extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -59,15 +59,15 @@ export class Project extends BaseEntity {
   createdAt: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updatedAt?: Date;
 
   @DeleteDateColumn()
-  deletedAt: Date;
+  deletedAt?: Date;
 
   @OneToMany(() => Epic, (epic) => epic.project, {lazy: true})
   epic: Epic[];
 
-  @OneToMany(() => ProjectComment, (projectComment) => projectComment.project, {lazy: true})
+  @OneToMany(() => ProjectComment, (projectComment) => projectComment.project)
   comments: ProjectComment[];
 
   // @ManyToMany(() => User, {lazy: true})

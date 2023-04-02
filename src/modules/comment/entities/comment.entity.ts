@@ -9,7 +9,7 @@ import {
   UpdateDateColumn
 } from 'typeorm';
 
-@Entity()
+@Entity('comments')
 @TableInheritance({column: {type: 'varchar', name: 'type'}})
 export abstract class Comment {
   @PrimaryGeneratedColumn('uuid')
@@ -19,10 +19,10 @@ export abstract class Comment {
   content: string;
 
   @OneToMany(() => Comment, comment => comment.parent)
-  children: Comment[];
+  children?: Comment[];
 
-  @OneToMany(() => Comment, comment => comment.parent)
-  parent: Comment;
+  @OneToMany(() => Comment, comment => comment.parent, {nullable: true})
+  parent?: Comment;
 
   @Column()
   author: string;
@@ -31,8 +31,8 @@ export abstract class Comment {
   createdAt: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updatedAt?: Date;
 
   @DeleteDateColumn()
-  deletedAt: Date;
+  deletedAt?: Date;
 }
