@@ -1,4 +1,4 @@
-import { IsDate, IsNotEmpty, IsOptional, IsString, IsUUID, MaxLength, MinLength } from 'class-validator';
+import { IsDate, IsNotEmpty, IsOptional, IsString, IsUrl, IsUUID, MaxLength, MinLength } from 'class-validator';
 
 export class CreateEpicDto {
 
@@ -14,22 +14,27 @@ export class CreateEpicDto {
   @MaxLength(255)
   description: string;
 
+  @IsOptional()
   @IsDate()
   @IsNotEmpty()
-  dateStart: Date;
+  dateStart?: Date;
 
+  @IsOptional()
   @IsDate()
   @IsNotEmpty()
-  dateEnd: Date;
+  dateEnd?: Date;
 
   @IsOptional()
   @IsString()
   @IsNotEmpty()
   @MaxLength(255)
-  referenceCode: string;
+  prefix: string;
 
+  @IsOptional()
+  @IsUrl()
+  referenceUrl?: string;
 
   @IsUUID()
   @IsNotEmpty()
-  project: string;
+  projectId: string;
 }

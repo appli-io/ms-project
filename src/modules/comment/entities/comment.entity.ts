@@ -2,7 +2,7 @@ import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
-  Entity,
+  Entity, ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   TableInheritance,
@@ -21,7 +21,7 @@ export abstract class Comment {
   @OneToMany(() => Comment, comment => comment.parent)
   children?: Comment[];
 
-  @OneToMany(() => Comment, comment => comment.parent, {nullable: true})
+  @ManyToOne(() => Comment, comment => comment.children, {nullable: true})
   parent?: Comment;
 
   @Column()

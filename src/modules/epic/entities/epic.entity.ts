@@ -36,11 +36,14 @@ export class Epic extends BaseEntity {
   @Column({name: 'date-end', type: 'date', nullable: false})
   dateEnd: Date;
 
-  @Column({name: 'reference-code', type: 'varchar', length: 255, nullable: false})
-  referenceCode: string;
+  @Column({name: 'prefix', type: 'varchar', length: 255, nullable: false})
+  prefix: string;
 
   @Column({name: 'reference-url', type: 'varchar', length: 255, nullable: false})
   referenceUrl: string;
+
+  @Column({name: 'project-id', nullable: false, type: 'uuid'})
+  projectId: string;
 
   @CreateDateColumn()
   createAt: Date;
