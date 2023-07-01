@@ -1,22 +1,16 @@
-# compiled output
-/dist
-/node_modules
+# .gitignore
 
-# Logs
-logs
-*.log
+# dependencies
+/node_modules
+/dist
+
+# dotenv environment variables file
+.env
+
+# log files
 npm-debug.log*
-pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-lerna-debug.log*
-
-# OS
-.DS_Store
-
-# Tests
-/coverage
-/.nyc_output
 
 # IDEs and editors
 /.idea
@@ -34,5 +28,40 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
-/.env
-pnpm-lock.yaml
+# misc
+.DS_Store
+.TSBuildInfo
+
+# Testing
+/coverage
+
+# Production
+/build
+
+# Docker
+Dockerfile*
+docker-compose.yml
+.dockerignore
+
+# Heroku
+Procfile
+
+# TypeORM
+ormconfig.json
+/src/config/typeorm.config.ts
+
+# NestJS
+nest-cli.json
+
+# Jest
+/test/jest-e2e.json
+
+# Auth
+/src/auth/auth.module.ts
+/src/auth/auth.service.ts
+/src/auth/auth.controller.ts
+/src/auth/jwt.strategy.ts
+/src/auth/user.entity.ts
+/src/auth/user.repository.ts
+/src/auth/dto/auth-credentials.dto.ts
+/src/auth/dto/jwt-payload.dto.ts
